@@ -514,7 +514,7 @@ def post_call(prev_device):
     category=FutureWarning,
 )
 def get_transform_func(dtype, orderA, orderOut, transpose=False):
-    name = f'ctransform_{(8 if dtype == torch.int8 else 32)}_{orderA}_to_{orderOut}_{"t" if transpose else "n"}'
+    name = f"ctransform_{(8 if dtype == torch.int8 else 32)}_{orderA}_to_{orderOut}_{'t' if transpose else 'n'}"
     if not hasattr(lib, name):
         print(name)
         raise ValueError(
@@ -2324,9 +2324,9 @@ def int8_linear_matmul(A: torch.Tensor, B: torch.Tensor, out: Optional[torch.Ten
     ldb = shapeB[-1]  # Activations (batch, tokens, inputs)
     ldc = shapeC[-1]  # Output (batch, tokens, outputs)
 
-    assert (
-        lda == ldb
-    ), f"int8_linear_matmul only supports B^T @ A. Inner dimensions do not match: B @ A = {shapeB} @ {shapeA}"
+    assert lda == ldb, (
+        f"int8_linear_matmul only supports B^T @ A. Inner dimensions do not match: B @ A = {shapeB} @ {shapeA}"
+    )
 
     # cuBLASLt does not support int8 matmul with inner dimensions that are not divisible by 4.
     # We'll fall back to a slower fp32 calculation in this circumstance.
@@ -2366,10 +2366,7 @@ def int8_linear_matmul(A: torch.Tensor, B: torch.Tensor, out: Optional[torch.Ten
 
     if has_error:
         raise RuntimeError(
-            f"cublasLt ran into an error!\n"
-            f"\t{shapeA=}, {shapeB=}, {shapeC=}\n"
-            f"\t{(lda, ldb, ldc)=}\n"
-            f"\t{(m, n, k)=}"
+            f"cublasLt ran into an error!\n\t{shapeA=}, {shapeB=}, {shapeC=}\n\t{(lda, ldb, ldc)=}\n\t{(m, n, k)=}"
         )
 
     return out
@@ -2862,9 +2859,9 @@ def spmm_coo(
     out: Optional[torch.Tensor] = None,
 ):
     if not isinstance(cooA, COOSparseTensor):
-        assert (
-            cooA.is_sparse and cooA.layout == torch.sparse_coo
-        ), "Tensor must be `COOSparseTensor or a PyTorch COO tensor."
+        assert cooA.is_sparse and cooA.layout == torch.sparse_coo, (
+            "Tensor must be `COOSparseTensor or a PyTorch COO tensor."
+        )
 
         # Convert to custom COOSparseTensor
         cooA = COOSparseTensor(
