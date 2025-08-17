@@ -62,7 +62,7 @@ if __name__ == "__main__":
             color=color,
             label=name,
             marker=marker,
-            markersize=5 if marker == "s" else 5,
+            markersize=5,
             linestyle=ls,
             linewidth=2 if "+" in k else 1.0,
         )
@@ -130,7 +130,7 @@ if __name__ == "__main__":
             color=color,
             label=f"batch * sequence length = {batch_size}",
             marker=markers[j],
-            markersize=5 if marker == "s" else 5,
+            markersize=5,
         )
 
     ax.legend()

@@ -230,8 +230,8 @@ class Optimizer8bit(torch.optim.Optimizer):
         self.__setstate__({"state": state, "param_groups": param_groups})
 
     def to_gpu(self):
-        for gindex, group in enumerate(self.param_groups):
-            for pindex, p in enumerate(group["params"]):
+        for group in self.param_groups:
+            for p in group["params"]:
                 if p in self.state:
                     values = self.state[p]
                     for k, v in values.items():

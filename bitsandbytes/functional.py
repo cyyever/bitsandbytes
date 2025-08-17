@@ -242,7 +242,7 @@ def create_fp8_map(signed=True, exponent_bits=5, precision_bits=2, total_bits=8)
     assert e + p == total_bits - has_sign
     # the exponent is biased to 2^(e-1) -1 == 0
     evalues = []
-    for i, val in enumerate(range(-(2 ** (exponent_bits - has_sign)), 2 ** (exponent_bits - has_sign), 1)):
+    for val in range(-(2 ** (exponent_bits - has_sign)), 2 ** (exponent_bits - has_sign), 1):
         evalues.append(2**val)
 
     values = []
@@ -268,7 +268,7 @@ def create_fp8_map(signed=True, exponent_bits=5, precision_bits=2, total_bits=8)
     values.sort()
     if total_bits < 8:
         gap = 256 - len(values)
-        for i in range(gap):
+        for _ in range(gap):
             values.append(0)
     values.sort()
     code = torch.tensor(values)
@@ -325,7 +325,7 @@ def create_dynamic_map(signed=True, max_exponent_bits=7, total_bits=8):
     assert len(data) == 2**total_bits
 
     gap = 256 - len(data)
-    for i in range(gap):
+    for _ in range(gap):
         data.append(0)
 
     data.sort()

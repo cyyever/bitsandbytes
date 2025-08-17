@@ -103,7 +103,7 @@ def find_cudart_libraries() -> Iterator[Path]:
             yield from find_cuda_libraries_in_path_list(directory)
             candidate_env_vars.pop(envvar)
 
-    for env_var, value in candidate_env_vars.items():
+    for value in candidate_env_vars.values():
         yield from find_cuda_libraries_in_path_list(value)
 
 

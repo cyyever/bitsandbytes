@@ -61,7 +61,7 @@ class OutlierTracer:
         self.initialized = True
         self.hooks = []
 
-        for n, m in model.named_modules():
+        for m in model.modules():
             if isinstance(m, torch.nn.Linear):
                 self.hooks.append(m.register_forward_pre_hook(outlier_hook))
 
