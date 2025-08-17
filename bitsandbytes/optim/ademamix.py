@@ -151,7 +151,7 @@ class AdEMAMix(Optimizer2State):
         elif config["optim_bits"] == 8:
             dtype = torch.uint8
         else:
-            raise NotImplementedError(f'Amount of optimizer bits not supported: {config["optim_bits"]}')
+            raise NotImplementedError(f"Amount of optimizer bits not supported: {config['optim_bits']}")
 
         if p.numel() < config["min_8bit_size"]:
             dtype = torch.float32

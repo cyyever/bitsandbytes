@@ -469,7 +469,7 @@ class Linear4bit(nn.Linear):
 
         # weights are cast automatically as Int8Params, but the bias has to be cast manually
         if self.bias is not None and self.bias.dtype != x.dtype:
-            self.bias.data = self.bias.data.to(x.dtype)
+            self.bias.data = self.bias.data.to(x.dtype, non_blocking=True)
 
         if not self.compute_type_is_set:
             self.set_compute_type(x)
@@ -477,11 +477,13 @@ class Linear4bit(nn.Linear):
 
         inp_dtype = x.dtype
         if self.compute_dtype is not None:
-            x = x.to(self.compute_dtype)
+            x = x.to(self.compute_dtype, non_blocking=True)
 
-        bias = None if self.bias is None else self.bias.to(self.compute_dtype)
+        bias = None if self.bias is None else self.bias.to(self.compute_dtype, non_blocking=True)
 
-        return bnb.matmul_4bit(x, self.weight.t(), bias=bias, quant_state=self.weight.quant_state).to(inp_dtype)
+        return bnb.matmul_4bit(x, self.weight.t(), bias=bias, quant_state=self.weight.quant_state).to(
+            inp_dtype, non_blocking=True
+        )
 
 
 class LinearFP4(Linear4bit):
